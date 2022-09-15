@@ -20,12 +20,16 @@ jobs:
     steps:
       - name: Checkout
         uses: actions/checkout@v3
+      - uses: ruby/setup-ruby@v1
+        with:
+          ruby-version: '3.1.2'
+          bundler-cache: true
       - name: Setup Pages
         uses: actions/configure-pages@v2
       - name: Build
         run: |
           mkdir _site
-          echo "LOL" > _site/index.html
+          ruby lol.rb > _site/index.html
       - name: Upload artifact
         uses: actions/upload-pages-artifact@v1
 
