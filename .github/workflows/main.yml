@@ -44,12 +44,9 @@ jobs:
         env:
           ISSUE_NUM: ${{ github.event.issue.number }}
           ISSUE_TITLE: ${{ github.event.issue.title }}
-          ISSUE_USER: ${{ github.event.issue.user }}
           ISSUE_BODY: ${{ github.event.issue.body }}
-          ISSUE_CREATED_AT: ${{ github.event.issue.created_at }}
         run: |
           echo "### $ISSUE_TITLE" > $ISSUE_NUM.md
-          echo "[by $ISSUE_USER @ $ISSUE_CREATED_AT]" >> $ISSUE_NUM.md
           echo $ISSUE_BODY >> $ISSUE_NUM.md
           git add *.md
       - name: Commit, and push repo
