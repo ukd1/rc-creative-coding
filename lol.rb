@@ -7,10 +7,15 @@ puts '</head>'
 puts '<body id="content">'
 puts '<h1>RC Creative coding list of things</h1>'
 
+
+def get_sketch_id(file)
+  File.basename(file).split('.')[0].to_i
+end
 # we have to sort like this as we want a "natural sort" based on the actual number
 # not the text of the filename
-Dir.glob("sketches/*.md").sort_by{|f| File.basename(f).split('.')[0].to_i }.reverse.each do |file|
-  puts "<h2>#{file}</h2>"
+Dir.glob("sketches/*.md").sort_by{|file| get_sketch_id(file) }.reverse.each do |file|
+  id = get_sketch_id(file)
+  puts "<h2 id='#{id}'>#{file}</h2> <a href='##{id}'>🔗</a>"
   puts "<div class='md'>#{File.read(file)}</div>"
   puts "<br>"
 end
