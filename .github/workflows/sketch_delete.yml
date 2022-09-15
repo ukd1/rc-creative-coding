@@ -1,24 +1,62 @@
+#
+#
+# This deletes sketches when an issue is deleted!
+#
+#
 name: Delete sketch
+
+# it runs when
 on:
+  # issues are
   issues:
+    # deleted on github.
     types: [deleted]
+
 jobs:
   deleted:
     name: Issue comment
     runs-on: ubuntu-latest
+
+    # when it runs...
     steps:
+
+      # we checkout the code
       - uses: actions/checkout@v3
+
+      # setup a github user (as we're going to commit back to this repo itself! 🤘)...
       - name: Config git user
         run: |
           git config user.name "Russell Smith"
           git config user.email ukd1@users.noreply.github.com
+
+      # delete the sketch file from the git repo
       - name: Bye 💣
         env:
           ISSUE_NUM: ${{ github.event.issue.number }}
         run: |
           git rm sketches/$ISSUE_NUM.md
+
+      # now we'rew gonna commit the file, and push the change back to github! 😇
       - name: Commit, and push repo
+        # this is just basic git CLI - but we use GITHUB_RUN_NUMBER to make
+        # finding where a commit came from a little easier.
+        #
+        # also, the double pipe || is used to avoid failing the build if something
+        # somehow breaks here, as we (prolly? 🤷🏻) don't really care. Example of why
+        # might happen is if there were no changes to actually commit...
         run: |
           git commit -m "Removed sketch ${ISSUE_NUM} in run ${GITHUB_RUN_NUMBER}" || true
           git push || true
-
+        # this is just basic git CLI - but we use GITHUB_RUN_NUMBER to make
+        # finding where a commit came from a little easier.
+        #
+        # also, the double pipe || is used to avoid failing the build if something
+        # somehow breaks here, as we (prolly? 🤷🏻) don't really care. Example of why
+        # might happen is if there were no changes to actually commit...
+        # ...... wait, we didn't actually deploy or make a website?
+        #
+        # .......... 🤯
+        #
+        # so, ya - correct! we could do it here, but to keep from repeating things
+        # the deployment and build stuff is in build_web.yml. That workflow actually
+        # monitors this one, and runs if this one completes. Magic!

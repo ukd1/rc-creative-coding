@@ -1,50 +1,95 @@
-name: Deploy GitHub Pages 
-
+#
+#
+# This file builds the website from the data in the repo
+# and then deploys it to github-pages.
+#
+#
+name: Deploy GitHub Pages
 on:
+  # it runs when you push to
   push:
+    # the main branch
     branches: ["main"]
+
+  # or trigger it manually (via a button in github actions!)
   workflow_dispatch:
+
+  # or when another workflow...
   workflow_run:
+    # these ones listed here :
     workflows: ["Create or Update Sketches", "Delete sketch"]
     types:
+      # are completed!
       - completed
 
+
+# We give it some permissions
 permissions:
-  contents: read
-  pages: write
+  contents: read # so it can read
+  pages: write   # and write back to github pages
   id-token: write
 
+# and try to limit it's concurrency, so that multiple builds
+# at once don't happen
 concurrency:
+  # this group is an arbitraty sting used to check for other things
+  # running with the same group....
   group: "pages"
+  # and then we also cancel anything else that was happening, instead of queuing it up
   cancel-in-progress: true
 
 jobs:
   build:
     runs-on: ubuntu-latest
+
+    # these are some steps to build the site
     steps:
+
+      # this gets the code
       - name: Checkout
         uses: actions/checkout@v3
+
+      # this installs ruby...
       - uses: ruby/setup-ruby@v1
         with:
           ruby-version: '3.1.2'
           bundler-cache: true
+
+      # and does some connection / setup of github-pages toolign
       - name: Setup Pages
         uses: actions/configure-pages@v2
+
+      # this is the only bit that "we" do really, which just runs the
+      # ruby file "lol.rb" and saves it's output to an index.html file
+      # in a specific folder that works with github-pages...
       - name: Build
         run: |
           mkdir _site
           ruby lol.rb > _site/index.html
+        # you could easily add more things to be written here if you wanted
+        # or use another language; just make static files in _site, and it
+        # should "just work" ™️
+
+      # this uploads the things we've just put in the _site folder to github pages
+      # ...but doesn't actually deploy them live...
       - name: Upload artifact
         uses: actions/upload-pages-artifact@v1
 
-  # Deployment job
+  # Deployment happens next...
   deploy:
     environment:
       name: github-pages
+      # this sets up the URL that appears on the build-step
+      # and is basically just a nice-to-have, but is kinda cool!
       url: ${{ steps.deployment.outputs.page_url }}
     runs-on: ubuntu-latest
+
+    # make sure "build" steps above ran first...
     needs: build
+
+    # then...
     steps:
       - name: Deploy to GitHub Pages
         id: deployment
+        # use this github action, which deploys the pages...
         uses: actions/deploy-pages@v1

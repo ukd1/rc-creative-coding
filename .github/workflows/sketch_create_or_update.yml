@@ -1,31 +1,81 @@
+#
+#
+# This creates and updates sketches when github issues are created or updated.
+#
+#
 name: Create or Update Sketches
+
+# it runs when
 on:
+  # issues are
   issues:
+    # opened, or edited on github.
     types: [opened, edited]
+
 jobs:
   create_or_update:
     name: Create or Update
     runs-on: ubuntu-latest
+
+    # when it runs...
     steps:
+      # we checkout the code
       - uses: actions/checkout@v3
+
+      # install ruby
       - uses: ruby/setup-ruby@v1
         with:
           ruby-version: '3.1.2'
           bundler-cache: true
+
+      # setup a github user (as we're going to commit back to this repo itself! 🤘)...
       - name: Config git user
         run: |
           git config user.name "Russell Smith"
           git config user.email ukd1@users.noreply.github.com
-      - name: Hello
+
+
+      # create the sketch file from the issue
+      - name: Create Sketch from Issue
         env:
+          # then map some environment variables from "magic" github
+          # variables that are passed to this job. Somehow it's not
+          # super well documented tbh 🤦🏻‍♂️ 🤷🏻
+
+          # the issue's number
           ISSUE_NUM: ${{ github.event.issue.number }}
+
+          # the title someone entered
           ISSUE_TITLE: ${{ github.event.issue.title }}
+
+          # the body of the issue, which is basically the first comment
           ISSUE_BODY: ${{ github.event.issue.body }}
+
+        # then we use those env vars we just mapped to pipe things
+        # in to a file, which we name based on the issue number
+        # it's then staged in to git for us to commit later 🫡
         run: |
+
           echo "### $ISSUE_TITLE" > sketches/$ISSUE_NUM.md
           echo $ISSUE_BODY >> sketches/$ISSUE_NUM.md
           git add sketches/*.md
+
+      # now we'rew gonna commit the file, and push the change back to github! 😇
       - name: Commit, and push repo
+        # this is just basic git CLI - but we use GITHUB_RUN_NUMBER to make
+        # finding where a commit came from a little easier.
+        #
+        # also, the double pipe || is used to avoid failing the build if something
+        # somehow breaks here, as we (prolly? 🤷🏻) don't really care. Example of why
+        # might happen is if there were no changes to actually commit...
         run: |
           git commit -m "Updated data in run ${GITHUB_RUN_NUMBER}" || true
           git push || true
+
+        # ...... wait, we didn't actually deploy or make a website?
+        #
+        # .......... 🤯
+        #
+        # so, ya - correct! we could do it here, but to keep from repeating things
+        # the deployment and build stuff is in build_web.yml. That workflow actually
+        # monitors this one, and runs if this one completes. Magic!
