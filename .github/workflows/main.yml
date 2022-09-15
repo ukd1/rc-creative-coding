@@ -2,7 +2,6 @@ name: Scheduled Update
 on:
   issues:
     types: [opened, edited, deleted]
-concurrency: dont_run_when_already_running_lol
 jobs:
   # deleted:
   #   name: Issue comment
@@ -31,7 +30,6 @@ jobs:
   create_or_update:
     name: Create or Update
     runs-on: ubuntu-latest
-    concurrency: dont_run_when_already_running_lol
     steps:
       - uses: actions/checkout@v3
       - uses: ruby/setup-ruby@v1
