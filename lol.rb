@@ -9,16 +9,20 @@ puts '<h1>RC Creative coding list of things</h1>'
 
 Dir.glob("sketches/*.md").sort.reverse.each do |file|
   puts "<h2>#{file}</h2>"
-  puts File.read(file)
+  puts "<div class='md'>#{File.read(file)}</div>"
   puts "<br>"
 end
 
 puts <<-EOF
 <script>
-  marked.setOptions({ gfm: true, breaks: true});
+  marked.setOptions({
+    gfm: true,
+    breaks: true
+  });
 
-  document.getElementById('content').innerHTML =
-    marked.parse(  document.getElementById('content').innerHTML);
+  document.querySelectorAll('.md').forEach((block) => {
+    block.innerHTML = marked.parse(block.innerHTML);
+  } );
 </script>
 EOF
 puts '</body>'
