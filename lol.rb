@@ -7,7 +7,9 @@ puts '</head>'
 puts '<body id="content">'
 puts '<h1>RC Creative coding list of things</h1>'
 
-Dir.glob("sketches/*.md").sort.reverse.each do |file|
+# we have to sort like this as we want a "natural sort" based on the actual number
+# not the text of the filename
+Dir.glob("sketches/*.md").sort_by{|f| File.basename(f).split('.')[0].to_i }.reverse.each do |file|
   puts "<h2>#{file}</h2>"
   puts "<div class='md'>#{File.read(file)}</div>"
   puts "<br>"
