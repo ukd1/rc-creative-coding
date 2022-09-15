@@ -1,9 +1,7 @@
 name: Scheduled Update
 on:
-  workflow_dispatch:
-  push:
-  schedule:
-    - cron:  '*/30 * * * *'
+  issues:
+    types: [opened, edited, deleted]
 concurrency: commit
 jobs:
   fetch:
@@ -20,9 +18,11 @@ jobs:
           git config user.name "Russell Smith"
           git config user.email ukd1@users.noreply.github.com
       - name: Hello
+        env:
+          ISSUE_NUM: ${{ github.event.issue.number }}
         run: |
-          echo "Hello, RC!" > HELLO.md
-          git add HELLO.md
+          echo "Hello, RC!" > $ISSUE_NUM.md
+          git add *.md
       - name: Commit, and push repo
         run: |
           git commit -m "Updated data in run ${GITHUB_RUN_NUMBER}" || true
