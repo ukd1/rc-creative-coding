@@ -5,7 +5,7 @@ puts '</head>'
 puts '<body>'
 puts '<h1>RC Creative coding list of things</h1>'
 
-Dir.glob("sketches/*.md") do |file|
+Dir.glob("sketches/*.md").sort.reverse.each do |file|
   puts "<h2>#{file}</h2>"
   puts File.read(file)
   puts "<br>"
