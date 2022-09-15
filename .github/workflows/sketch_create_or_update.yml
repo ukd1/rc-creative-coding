@@ -1,0 +1,31 @@
+name: Create or Update Sketches
+on:
+  issues:
+    types: [opened, edited]
+jobs:
+  create_or_update:
+    name: Create or Update
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+      - uses: ruby/setup-ruby@v1
+        with:
+          ruby-version: '3.1.2'
+          bundler-cache: true
+      - name: Config git user
+        run: |
+          git config user.name "Russell Smith"
+          git config user.email ukd1@users.noreply.github.com
+      - name: Hello
+        env:
+          ISSUE_NUM: ${{ github.event.issue.number }}
+          ISSUE_TITLE: ${{ github.event.issue.title }}
+          ISSUE_BODY: ${{ github.event.issue.body }}
+        run: |
+          echo "### $ISSUE_TITLE" > sketches/$ISSUE_NUM.md
+          echo $ISSUE_BODY >> sketches/$ISSUE_NUM.md
+          git add sketches/*.md
+      - name: Commit, and push repo
+        run: |
+          git commit -m "Updated data in run ${GITHUB_RUN_NUMBER}" || true
+          git push || true

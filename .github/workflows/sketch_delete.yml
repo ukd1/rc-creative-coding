@@ -1,0 +1,24 @@
+name: Delete sketch
+on:
+  issues:
+    types: [deleted]
+jobs:
+  deleted:
+    name: Issue comment
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+      - name: Config git user
+        run: |
+          git config user.name "Russell Smith"
+          git config user.email ukd1@users.noreply.github.com
+      - name: Bye 💣
+        env:
+          ISSUE_NUM: ${{ github.event.issue.number }}
+        run: |
+          git rm sketches/$ISSUE_NUM.md
+      - name: Commit, and push repo
+        run: |
+          git commit -m "Removed sketch ${ISSUE_NUM} in run ${GITHUB_RUN_NUMBER}" || true
+          git push || true
+

@@ -15,14 +15,11 @@ end
 
 puts <<-EOF
 <script>
-  marked.setOptions({
-    gfm: true,
-    breaks: true
-  });
+  marked.setOptions({gfm: true, breaks: true});
 
   document.querySelectorAll('.md').forEach((block) => {
     block.innerHTML = marked.parse(block.innerHTML);
-  } );
+  });
 </script>
 EOF
 puts '</body>'
