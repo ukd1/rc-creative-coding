@@ -25,6 +25,8 @@ main_template = ERB.new <<-EOF
   <p>
     <a href="https://github.com/ukd1/rc-creative-coding/issues/new">Add something!</a>
     &mdash;
+    <a href="https://www.recurse.com/calendar/21866">Join us</a>
+    &mdash;
     <a href="https://github.com/ukd1/rc-creative-coding">The code</a>
     &mdash;
     <a href="https://www.recurse.com">Recurse Center</a>

@@ -2,7 +2,9 @@
 
 ## What is this?
 
-It's a collection of things RC'er have done (or found) related to creative coding. 🥰
+It's a collection of things RC'er have done (or found) related to the [creative coding](https://www.recurse.com/calendar/21866) meet. 🥰
+
+[Add something here 🚀💪😎](https://github.com/ukd1/rc-creative-coding/issues/new)
 
 ## How do I use it?
 
