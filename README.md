@@ -12,11 +12,11 @@ If you want to remove something, you have to delete the issue. Please ask an adm
 
 ## How does it work?
 
-Github Actions allows you to trigger workflows (aka scripts) when things happen; we trigger when an issue is created, updated, or deleted.
+Github Actions allows you to trigger workflows (aka scripts) when things happen; we trigger when an issue is [created, updated](/ukd1/rc-creative-coding/blob/main/.github/workflows/sketch_create_or_update.yml), or [deleted](/ukd1/rc-creative-coding/blob/main/.github/workflows/sketch_delete.yml).
 
 We look at what was in the issue, and write it to a file, then commit and push it back to github.
 
-This then triggers Github Actions to build the website - which is currently a simple list (see `lol.rb`) - and publish it to Github Pages.
+This then triggers Github Actions to [build the website](/ukd1/rc-creative-coding/blob/main/.github/workflows/build_web.yml) - which is currently a simple list (see [lol.rb](/ukd1/rc-creative-coding/blob/main/lol.rb)) - and publish it to Github Pages.
 
 ## Can I help out / change this / hack on it?
 
