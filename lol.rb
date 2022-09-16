@@ -49,7 +49,7 @@ EOF
 #
 sketch_template = ERB.new <<-EOF
   <div id="sketch_<%= id %>">
-    <h2><%= file %></h2> <a href='sketch_#<%= id %>'>🔗</a>
+    <h2><%= file %></h2> <a href='#sketch_<%= id %>'>🔗</a>
     <div class='md'><%= File.read(file) %></div>
     <br>
   </div>
