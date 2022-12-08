@@ -1,0 +1,151 @@
+@import url('https://fonts.googleapis.com/css2?family=Libre+Baskerville:wght@400;700&display=swap');
+@import url('/reset.css');
+
+:root {
+  --header-bg: #f7f8f8;
+
+  --brand-blue: #3c89c3;
+  --brand-blue-dark: #4d9bd8;
+  --brand-purple: #815fa5;
+  --brand-salmon: #bd5179;
+  --brand-yellow: #d28e56;
+  --brand-green: #23a050;
+
+  --color-text: #2a2d2d;
+  --color-quote: #626a6a;
+
+  --font-heading: 'Libre Baskerville', Cambria, Cochin, Georgia, Times,
+    'Times New Roman', serif;
+  --font-text: 'Helvetica', 'Arial', sans-serif;
+
+  --lh-heading: 1.1;
+  --lh-text: 1.5;
+
+  --container-md: 976px;
+  --container-sm: 720px;
+
+  /* font-size: 1.25rem; */
+}
+
+/* further reset: match every single element AND pseudo element */
+*,
+*::before,
+*::after {
+  font-family: inherit;
+  font-size: inherit;
+  color: inherit;
+  line-height: inherit;
+}
+
+body {
+  font-family: var(--font-text);
+  line-height: var(--lh-text);
+  --padding: 1.5rem;
+  max-width: calc(var(--container-md) + var(--padding) * 2);
+  padding: var(--padding);
+  margin: 4rem auto;
+  color: var(--color-text);
+}
+
+a:hover {
+  color: var(--brand-blue-dark);
+}
+
+h1,
+h2,
+h3 {
+  font-family: var(--font-heading);
+  line-height: var(--lh-heading);
+  font-weight: 400;
+}
+
+h1 {
+  color: var(--brand-green);
+  font-size: 4rem;
+}
+
+/* Paragraph below header */
+h1 + p {
+  font-size: 1.5rem;
+  margin: 1em 0 2em;
+  max-width: var(--container-sm);
+}
+
+/* Coloring links */
+h1 + p + p > a:nth-child(1) {
+  color: var(--brand-blue);
+}
+
+h1 + p + p > a:nth-child(2) {
+  color: var(--brand-purple);
+}
+
+h1 + p + p > a:nth-child(3) {
+  color: var(--brand-salmon);
+}
+
+h1 + p + p > a:nth-child(4) {
+  color: var(--brand-yellow);
+}
+
+div[id*='sketch_'] {
+  position: relative;
+}
+/* @TODO: change the HTML structure to make it more accessible & SEO friendly */
+div[id*='sketch_'] h2 {
+  display: none;
+}
+div[id*='sketch_'] h3 {
+  font-size: 1.35em;
+  margin-bottom: 0.5em;
+}
+
+div[id*='sketch_'] > a {
+  display: block;
+  --offset: 1.5rem;
+  width: calc(100% + var(--offset));
+  transition: 0.5s; /* Weird behavior: transitions aren't working */
+  text-decoration: none;
+  color: transparent;
+  position: absolute;
+  left: 0;
+  top: 0;
+  transform: translate(calc(var(--offset) * -1), 0.15em);
+}
+
+div[id*='sketch_'] > a:hover::before {
+  text-decoration: underline;
+  /* transform: scale(1.5); */
+}
+
+div[id*='sketch_'] > a::before {
+  content: url('https://api.iconify.design/ph:link-bold.svg?color=%23888888');
+  color: var(--brand-blue);
+  fill: var(--brand-blue);
+}
+
+.md img:has(~ img) {
+  display: inline-block;
+  max-width: 30%;
+}
+
+.md img + br {
+  display: none;
+}
+
+/* .md > p:has(img) {
+  display: flex;
+  align-items: center;
+  overflow-x: auto;
+  gap: 1rem;
+  white-space: nowrap;
+}
+
+.md > p:has(img) > * {
+  max-width: 150px;
+} */
+
+/* .md > p:has(img) > *:first-child {
+  background-color: red !important;
+  display: block !important;
+} */
