@@ -64,7 +64,7 @@ jobs:
       # in a specific folder that works with github-pages...
       - name: Build
         run: |
-          mkdir _site
+          mkdir -p _site
           ruby lol.rb > _site/index.html
         # you could easily add more things to be written here if you wanted
         # or use another language; just make static files in _site, and it
