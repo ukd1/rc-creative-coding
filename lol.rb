@@ -17,6 +17,8 @@ main_template = ERB.new <<-EOF
   <title>RC Creative Coding Archive</title>
   <meta charset="utf-8"/>
   <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
+  <link rel="stylesheet" href="/styles.css" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
 </head>
 <body>
   <h1>🐙 RC Creative Coding Archive 👋</h1>
